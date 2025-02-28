@@ -1,8 +1,5 @@
 import MarkdownIt from "markdown-it";
 import hljs from "highlight.js";
-import { figure } from "@mdit/plugin-figure";
-//import markdownItKatex from 'markdown-it-katex';
-// import markdownItMathjax from 'markdown-it-mathjax';
 import texmath from "markdown-it-texmath";
 
 const md = new MarkdownIt({
@@ -32,7 +29,6 @@ const md = new MarkdownIt({
 
 // 使用插件
 md.use(texmath, { engine: "katex" });
-md.use(figure);
 
 // 给渲染的html标签加上名为markdown的class，因为无法在vue页面内用scoped渲染，所以用这个方法。
 function MdRenderRule(className: string) {

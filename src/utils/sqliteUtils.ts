@@ -104,11 +104,11 @@ export async function bloglist(
 
 // 查找 blog 库中的数据量
 export async function blogCount(
-  criteria: {
-    blogname: string;
-    category: string;
-    tags: string;
-  },
+  { 
+    blogname = "", 
+    category = "", 
+    tags = "" 
+  } = {},
   db: Database
 ) {
   // 构建动态 SQL 查询
@@ -124,17 +124,17 @@ export async function blogCount(
   const params: any[] = [];
 
   // 动态构建查询条件
-  if (criteria.blogname) {
+  if (blogname) {
     conditions.push("blog.blog_name LIKE ?");
-    params.push(`%${criteria.blogname}%`);
+    params.push(`%${blogname}%`);
   }
-  if (criteria.category) {
+  if (category) {
     conditions.push("category.category_name LIKE ?");
-    params.push(`%${criteria.category}%`);
+    params.push(`%${category}%`);
   }
-  if (criteria.tags) {
+  if (tags) {
     conditions.push("tag.tag_name LIKE ?");
-    params.push(`%${criteria.tags}%`);
+    params.push(`%${tags}%`);
   }
 
   // 拼接 WHERE 子句
@@ -147,7 +147,7 @@ export async function blogCount(
 
   // 获取查询结果
   const count = result[0].values[0][0];
-  return count;
+  return count as number;
 }
 
 // 根据 blog_id 获取博客信息

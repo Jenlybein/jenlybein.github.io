@@ -2,18 +2,25 @@
   <Transition name="default" mode="out-in" appear>
     <RouterLink :to="{name:'search' , query : {tags:[tag.tag_name]}}" class="tagItem">
       <strong style="margin-right: auto ;"> <strong>#</strong> {{ tag.tag_name }}</strong>
-      <strong>{{ tag.tag_id }}</strong>
+      <strong>{{ blogcount }}</strong>
     </RouterLink>
   </Transition>
 </template>
 
 <script setup lang="ts">
-
+import { blogCount, loadNetDb } from '@/utils/sqliteUtils';
+import { onMounted, ref } from 'vue';
 
 const props = defineProps<{ tag: {
   tag_id: string;
   tag_name: string;
 } }>();
+
+const blogcount = ref(0);
+onMounted(async () => {
+  const data = await loadNetDb();
+  blogcount.value = await blogCount({ tags: props.tag.tag_name }, data);
+})
 </script>
 
 <style scoped>
